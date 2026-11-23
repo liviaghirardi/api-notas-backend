@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "titulo": "Estudos",
+    "texto": "Revisar os métodos HTTP: GET, POST, PUT e DELETE",
+    "criadoEm": "2026-11-23T12:00:00.000Z"
+  },
+  {
+    "id": "2",
+    "titulo": "Projeto Integrador",
+    "texto": "Atualizar o quadro Kanban com as tarefas da sprint",
+    "criadoEm": "2026-11-23T12:00:00.000Z"
+  },
+  {
+    "id": "3",
+    "titulo": "Lembrete",
+    "texto": "Documentar a API no Postman",
+    "criadoEm": "2026-11-23T12:00:00.000Z"
+  }
+]
