@@ -25,6 +25,14 @@ api-notas-backend/
 └── postman/       # coleção do Postman com as rotas documentadas
 ```
 
+## Prints do código
+
+![Configuração, middlewares e funções auxiliares](prints/codigo-1-configuracao.png)
+
+![Rotas GET, POST e PUT](prints/codigo-2-rotas-get-post-put.png)
+
+![Rota DELETE e inicialização do servidor](prints/codigo-3-rota-delete.png)
+
 ## Endpoints
 
 | Método | Rota | Função | Respostas |
