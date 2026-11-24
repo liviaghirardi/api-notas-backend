@@ -4,8 +4,8 @@ API REST desenvolvida com **Node.js** e **Express.js** para a Atividade 02 da Au
 
 As notas ficam salvas no arquivo `data.json`, que funciona como um banco de dados simples. A API permite criar, listar, buscar, editar e excluir notas (CRUD).
 
-- **Deploy (Render):** _adicionar link após o deploy_
-- **Front-end que consome esta API:** [api-notas-frontend](https://github.com/liviaghirardi/api-notas-frontend)
+- **Deploy (Render):** https://api-notas-backend-qp4b.onrender.com
+- **Front-end que consome esta API:** [api-notas-frontend](https://github.com/liviaghirardi/api-notas-frontend) — https://api-notas-frontend-bay.vercel.app
 
 ## Tecnologias
 
