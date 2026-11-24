@@ -21,7 +21,8 @@ As notas ficam salvas no arquivo `data.json`, que funciona como um banco de dado
 api-notas-backend/
 ├── server.js      # servidor Express e rotas CRUD
 ├── data.json      # armazenamento das notas
-└── package.json   # dependências e scripts
+├── package.json   # dependências e scripts
+└── postman/       # coleção do Postman com as rotas documentadas
 ```
 
 ## Endpoints
@@ -63,6 +64,12 @@ api-notas-backend/
   "criadoEm": "2026-11-23T12:00:00.000Z"
 }
 ```
+
+## Coleção do Postman
+
+O arquivo [`postman/api-notas.postman_collection.json`](postman/api-notas.postman_collection.json) documenta as operações CRUD com exemplos de resposta e testes automáticos.
+
+No Postman, clique em **Import** e selecione o arquivo. Rode as requisições na ordem **Create → Read → Update → Delete**: o `id` da nota criada é guardado automaticamente na variável `noteId`.
 
 ## Como executar
 

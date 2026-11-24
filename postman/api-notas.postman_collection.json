@@ -1,0 +1,215 @@
+{
+  "info": {
+    "name": "API de Notas (Aula 05)",
+    "description": "Coleção que documenta as operações CRUD da API de Notas desenvolvida com Express.js e hospedada no Render.\n\nRepositório: https://github.com/liviaghirardi/api-notas-backend\n\n**Códigos de resposta usados pela API**\n\n| Código | Significado |\n|---|---|\n| 200 OK | Requisição realizada com sucesso |\n| 201 Created | Nota criada com sucesso |\n| 204 No Content | Nota excluída (sem corpo na resposta) |\n| 400 Bad Request | `titulo` ou `texto` não enviados |\n| 404 Not Found | Nenhuma nota com o id informado |\n\nA variável `baseUrl` aponta para a API no Render. A variável `noteId` é preenchida automaticamente ao executar **Create**.\n\nObs.: no plano gratuito do Render, a primeira requisição pode levar até 1 minuto enquanto o serviço acorda.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://api-notas-backend-qp4b.onrender.com", "type": "string" },
+    { "key": "noteId", "value": "1", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Create - Criar nota",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 201 Created', () => pm.response.to.have.status(201));",
+              "const nota = pm.response.json();",
+              "pm.test('Retorna a nota com id', () => pm.expect(nota).to.have.property('id'));",
+              "pm.collectionVariables.set('noteId', nota.id);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"titulo\": \"Nota criada no Postman\",\n  \"texto\": \"Testando o método POST\"\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": { "raw": "{{baseUrl}}/api/notes", "host": ["{{baseUrl}}"], "path": ["api", "notes"] },
+        "description": "Cria uma nova nota.\n\n**Corpo (JSON):** `titulo` (texto, obrigatório) e `texto` (texto, obrigatório).\n\n**Respostas:**\n- `201 Created`: retorna a nota criada com `id` e `criadoEm`.\n- `400 Bad Request`: `titulo` ou `texto` ausentes ou vazios."
+      },
+      "response": [
+        {
+          "name": "201 - Nota criada",
+          "originalRequest": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"titulo\": \"Nota criada no Postman\",\n  \"texto\": \"Testando o método POST\"\n}" },
+            "url": { "raw": "{{baseUrl}}/api/notes", "host": ["{{baseUrl}}"], "path": ["api", "notes"] }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [{ "key": "Content-Type", "value": "application/json; charset=utf-8" }],
+          "body": "{\n  \"id\": \"1795479012813\",\n  \"titulo\": \"Nota criada no Postman\",\n  \"texto\": \"Testando o método POST\",\n  \"criadoEm\": \"2026-11-24T00:10:12.813Z\"\n}"
+        },
+        {
+          "name": "400 - Campos obrigatórios",
+          "originalRequest": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{baseUrl}}/api/notes", "host": ["{{baseUrl}}"], "path": ["api", "notes"] }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [{ "key": "Content-Type", "value": "application/json; charset=utf-8" }],
+          "body": "{\n  \"erro\": \"Título e texto são obrigatórios\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Read - Listar notas",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 200 OK', () => pm.response.to.have.status(200));",
+              "pm.test('Retorna uma lista', () => pm.expect(pm.response.json()).to.be.an('array'));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": { "raw": "{{baseUrl}}/api/notes", "host": ["{{baseUrl}}"], "path": ["api", "notes"] },
+        "description": "Lista todas as notas salvas no `data.json`.\n\n**Respostas:**\n- `200 OK`: retorna um array de notas."
+      },
+      "response": [
+        {
+          "name": "200 - Lista de notas",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/api/notes", "host": ["{{baseUrl}}"], "path": ["api", "notes"] }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [{ "key": "Content-Type", "value": "application/json; charset=utf-8" }],
+          "body": "[\n  {\n    \"id\": \"1\",\n    \"titulo\": \"Estudos\",\n    \"texto\": \"Revisar os métodos HTTP: GET, POST, PUT e DELETE\",\n    \"criadoEm\": \"2026-11-23T12:00:00.000Z\"\n  }\n]"
+        }
+      ]
+    },
+    {
+      "name": "Read - Buscar nota por id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": ["pm.test('Status 200 OK', () => pm.response.to.have.status(200));"]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": { "raw": "{{baseUrl}}/api/notes/{{noteId}}", "host": ["{{baseUrl}}"], "path": ["api", "notes", "{{noteId}}"] },
+        "description": "Busca uma nota pelo `id` informado na URL.\n\n**Respostas:**\n- `200 OK`: retorna a nota.\n- `404 Not Found`: não existe nota com esse id."
+      },
+      "response": [
+        {
+          "name": "404 - Nota não encontrada",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/api/notes/999", "host": ["{{baseUrl}}"], "path": ["api", "notes", "999"] }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [{ "key": "Content-Type", "value": "application/json; charset=utf-8" }],
+          "body": "{\n  \"erro\": \"Nota não encontrada\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Update - Editar nota",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 200 OK', () => pm.response.to.have.status(200));",
+              "pm.test('Título atualizado', () => pm.expect(pm.response.json().titulo).to.eql('Nota editada no Postman'));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"titulo\": \"Nota editada no Postman\",\n  \"texto\": \"Testando o método PUT\"\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": { "raw": "{{baseUrl}}/api/notes/{{noteId}}", "host": ["{{baseUrl}}"], "path": ["api", "notes", "{{noteId}}"] },
+        "description": "Atualiza o `titulo` e o `texto` da nota com o `id` informado.\n\n**Respostas:**\n- `200 OK`: retorna a nota atualizada, com `atualizadoEm`.\n- `400 Bad Request`: `titulo` ou `texto` ausentes ou vazios.\n- `404 Not Found`: não existe nota com esse id."
+      },
+      "response": [
+        {
+          "name": "200 - Nota atualizada",
+          "originalRequest": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"titulo\": \"Nota editada no Postman\",\n  \"texto\": \"Testando o método PUT\"\n}" },
+            "url": { "raw": "{{baseUrl}}/api/notes/1795479012813", "host": ["{{baseUrl}}"], "path": ["api", "notes", "1795479012813"] }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [{ "key": "Content-Type", "value": "application/json; charset=utf-8" }],
+          "body": "{\n  \"id\": \"1795479012813\",\n  \"titulo\": \"Nota editada no Postman\",\n  \"texto\": \"Testando o método PUT\",\n  \"criadoEm\": \"2026-11-24T00:10:12.813Z\",\n  \"atualizadoEm\": \"2026-11-24T00:10:13.272Z\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Delete - Excluir nota",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": ["pm.test('Status 204 No Content', () => pm.response.to.have.status(204));"]
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": { "raw": "{{baseUrl}}/api/notes/{{noteId}}", "host": ["{{baseUrl}}"], "path": ["api", "notes", "{{noteId}}"] },
+        "description": "Exclui a nota com o `id` informado.\n\n**Respostas:**\n- `204 No Content`: nota excluída (resposta sem corpo).\n- `404 Not Found`: não existe nota com esse id."
+      },
+      "response": [
+        {
+          "name": "204 - Nota excluída",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/api/notes/1795479012813", "host": ["{{baseUrl}}"], "path": ["api", "notes", "1795479012813"] }
+          },
+          "status": "No Content",
+          "code": 204,
+          "_postman_previewlanguage": "text",
+          "header": [],
+          "body": ""
+        }
+      ]
+    }
+  ]
+}
